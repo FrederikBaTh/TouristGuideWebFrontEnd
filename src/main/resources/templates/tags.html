@@ -1,11 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
-<link th:href="@{/main.css}" rel="stylesheet">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link th:href="@{/main.css}" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tags</title>
 </head>
 <body>
+<h2> <span th:text="${attractionName}"></span>: tags</h2>
 
+<table border="1">
+    <thead>
+    <tr>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="tag : ${tags}">
+        <td th:text="${tag}"></td>
+    </tr>
+    </tbody>
+</table>
+<form th:action="@{/attractions}" method="get">
+    <button type="submit">Tilbage</button>
+</form>
 </body>
 </html>

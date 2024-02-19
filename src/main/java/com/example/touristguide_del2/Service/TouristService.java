@@ -35,4 +35,10 @@ public class TouristService {
     public boolean deleteAttraction(String name) {
         return touristRepository.deleteAttraction(name);
     }
+    public List<String> getTagsForAttraction(String attractionName) {
+        // Implementer logik til at hente tags baseret på attraktionens navn
+        // Returner en liste af tags
+        return touristRepository.getTagsForAttraction(attractionName);
+    }
+
 }

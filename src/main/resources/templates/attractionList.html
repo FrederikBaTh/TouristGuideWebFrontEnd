@@ -1,38 +1,37 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
-    <link th:href="@{/main.css}" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turistattraktioner</title>
+    <link href="@{/main.css}" rel="stylesheet">
 </head>
 <body>
-
-<table style="width: 100%">
+<h2>Turistattraktioner:</h2>
+<table border="2">
+    <thead>
     <tr>
-        <th>Attraktion</th>
-        <th>Description</th>
+        <th>Navn</th>
+        <th>Beskrivelse</th>
         <th>Tags</th>
-        <th>Handlinger</th>
     </tr>
+    </thead>
+    <tbody>
+    <tr th:each="touristAttraction : ${touristAttractions}">
+        <td th:text="${touristAttraction.name}"></td>
+        <td th:text="${touristAttraction.description}"></td>
+        <td>
+            <form th:action="@{/tags}" method="get">
+                <input type="hidden" name="attractionName" th:value="${touristAttraction.name}" />
+                <button type="submit">Tags</button>
+            </form>
+        </td>
 
-
-    <tr>
-        <td>Tivoli</td>
-        <td>Runde Tårn</td>
-        <td>Nyhavn</td>
     </tr>
-
-    <tr>
-    <td>Et sjovt sted</td>
-    <td>Et stort tårn</td>
-    <td>En havn der blev bygget for nyligt</td>
-</tr>
-
+    </tbody>
 </table>
-
-
-
-
+<form th:action="@{/addAttraction}" method="get">
+<button type="submit">Tilføj attraktion</button>
+</form>
 </body>
 </html>

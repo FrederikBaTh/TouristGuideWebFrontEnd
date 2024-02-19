@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/main.css}" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Tourist Attraction</title>
+</head>
+<body>
+<h2>Tilføj turistattraktion:</h2>
+<form th:action="@{/saveAttraction}" method="post">
+    <label for="name">Navn:</label>
+    <input type="text" id="name" name="name" required><br>
+
+    <label for="description">Beskrivelse:</label>
+    <textarea id="description" name="description" required></textarea><br>
+
+    <label for="attractions">Select Attraction:</label>
+    <select id="attractions" name="attraction">
+        <option value="runde">København</option>
+        <option value="nyhavn">Nyhavn</option>
+        <option value="tivoli">CentralCPH</option>
+    </select>
+
+    <button type="submit">Save</button>
+</form>
+</body>
+</html>
