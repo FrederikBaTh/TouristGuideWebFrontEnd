@@ -2,10 +2,17 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <title>$Title$</title>
+</head>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Turistattraktioner</title>
-    <link th:href="@{/main.css}" rel="stylesheet"></head>
+    <link th:href="@{/main.css}" rel="stylesheet">
+</head>
 <body>
+
+<table>
+    <thead>
 <h2>Turistattraktioner:</h2>
 <table border="2">
     <thead>
@@ -16,6 +23,9 @@
         <th></th>
         <th></th>
         <!-- <th>Tags</th> -->
+        <th>Attraktion</th>
+        <th>Description</th>
+        <th>Tags</th>
     </tr>
     </thead>
     <tbody>
@@ -35,13 +45,18 @@
             <a th:href="@{'/' + ${touristAttraction.name} + '/edit'}">
                 <button type="submit">Edit</button>
             </a>
-
+            <a th:href="@{'/' + ${touristAttraction.name} + '/delete'}">
+                <button type="submit">Delete</button>
+            </a>
         </td>
+
     </tr>
     </tbody>
 </table>
 <form th:action="@{/addAttraction}" method="get">
     <button type="submit">Tilføj attraktion</button>
 </form>
+
 </body>
+
 </html>

@@ -1,10 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Delete Confirmation</title>
 </head>
 <body>
+
+<h2>Delete Confirmation</h2>
+<p>Are you sure you want to delete the attraction: <span th:text="${touristAttraction.name}"></span>?</p>
+
+<form th:action="@{'/' + ${touristAttraction.name} + '/delete'}" method="post">
+    <input type="hidden" name="_method" value="delete" />
+    <button type="submit">Delete</button>
+</form>
+<a th:href="@{/attractions}"><button type="button">Cancel</button></a>
+
 
 </body>
 </html>

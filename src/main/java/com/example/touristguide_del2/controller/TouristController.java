@@ -41,6 +41,18 @@ public class TouristController {
         return "redirect:/attractions";
     }
 
+    @GetMapping("/{name}/delete")
+    public String DeleteConfirmation(@PathVariable String name, Model model) {
+        TouristAttraction attraction = touristService.getAttractionByName(name);
+        model.addAttribute("touristAttraction", attraction);
+        return "deleteAttraction";
+    }
+
+    @PostMapping("/{name}/delete")
+    public String deleteAttractionPost(@PathVariable String name) {
+        touristService.deleteAttraction(name);
+        return "redirect:/attractions";
+    }
 
     @GetMapping("/addAttraction")
     public String someEndpoint(Model model) {

@@ -60,11 +60,16 @@ public class TouristRepository {
     }
 
     public boolean deleteAttraction(String name) {
+        TouristAttraction attractionToRemove = null;
         for (TouristAttraction attraction : attractions) {
             if (attraction.getName().equals(name)) {
-                attractions.remove(attraction);
-                return true;
+                attractionToRemove = attraction;
+                break;
             }
+        }
+        if (attractionToRemove != null) {
+            attractions.remove(attractionToRemove);
+            return true;
         }
         return false;
     }
@@ -83,10 +88,5 @@ public class TouristRepository {
         }
 
     }
-
-
-
-
-
 
 }
