@@ -8,17 +8,18 @@
 </head>
 <body>
 <h2>Edit Turistattraktion:</h2>
-<form th:action="@{/update}" method="post" th:object="${attraction}">
-    <input type="hidden" name="name" th:value="${attraction.name}"/>
+<form th:action="@{/update}" method="post" th:object="${touristAttraction}">
+    <input type="hidden" name="name" th:value="${touristAttraction.name}"/>
 
     <label for="name">Navn:</label>
-    <input type="text" id="name" name="name" th:value="${attraction.name}" required><br>
+    <input type="text" id="name" name="name" th:field="*{name}" required><br>
 
     <label for="description">Beskrivelse:</label>
-    <textarea id="description" name="description" th:text="${attraction.description}" required></textarea><br>
+    <textarea id="description" name="description" th:field="*{description}" required></textarea><br>
 
     <label for="city">Vælg by:</label>
-    <input type="text" id="city" name="city" th:value="${attraction.city}" required><br>
+    <input type="text" id="city" name="city" th:field="*{city}" required><br>
+
 
     <!-- Add other fields as needed -->
 
@@ -27,5 +28,6 @@
         <button type="button">Annuller</button>
     </a>
 </form>
+
 </body>
 </html>
