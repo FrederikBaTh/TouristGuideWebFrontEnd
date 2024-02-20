@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Tourist Attraction</title>
-    <link href="@{/main.css}" rel="stylesheet">
+    <link th:href="@{/main.css}" rel="stylesheet">
 </head>
 <body>
 <h2>Edit Turistattraktion:</h2>
 <form th:action="@{/update}" method="post" th:object="${attraction}">
-    <input type="hidden" name="name" th:value="${attraction.name}" />
+    <input type="hidden" name="name" th:value="${attraction.name}"/>
 
     <label for="name">Navn:</label>
     <input type="text" id="name" name="name" th:value="${attraction.name}" required><br>
@@ -23,7 +23,9 @@
     <!-- Add other fields as needed -->
 
     <button type="submit">Gem ændringer</button>
-    <a th:href="@{/attractions}"><button type="button">Annuller</button></a>
+    <a th:href="@{/attractions}">
+        <button type="button">Annuller</button>
+    </a>
 </form>
 </body>
 </html>

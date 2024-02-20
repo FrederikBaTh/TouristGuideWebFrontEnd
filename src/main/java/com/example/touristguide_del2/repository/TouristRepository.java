@@ -1,6 +1,6 @@
-package com.example.touristguide_del2.Repository;
+package com.example.touristguide_del2.repository;
 
-import com.example.touristguide_del2.Model.TouristAttraction;
+import com.example.touristguide_del2.model.TouristAttraction;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public class TouristRepository {
 
-    private List<TouristAttraction> attractions = new ArrayList<>();
+    private final List<TouristAttraction> attractions = new ArrayList<>();
 
     private static final List<String> cities = Arrays.asList("København", "Helsingør", "Roskilde","Paris","Barcelona","Skagen");
     private static final List<String> tags = Arrays.asList("Bygning", "Børnevenlig", "Kirke", "Gratis","Dyrt","Natur","Billigt");
@@ -69,11 +69,8 @@ public class TouristRepository {
         return false;
     }
 
-    private TouristRepository repository;
-
 
     public TouristRepository(TouristRepository repository) {
-        this.repository = repository;
     }
 
     public List<String> getTagsForAttraction(String attractionName) {

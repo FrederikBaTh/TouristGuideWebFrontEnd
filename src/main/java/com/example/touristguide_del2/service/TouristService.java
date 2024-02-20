@@ -1,7 +1,7 @@
-package com.example.touristguide_del2.Service;
+package com.example.touristguide_del2.service;
 
-import com.example.touristguide_del2.Model.TouristAttraction;
-import com.example.touristguide_del2.Repository.TouristRepository;
+import com.example.touristguide_del2.model.TouristAttraction;
+import com.example.touristguide_del2.repository.TouristRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
