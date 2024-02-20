@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -46,10 +47,8 @@ public class TouristController {
     public String someEndpoint(Model model) {
         List<String> cities = touristService.getCities();
         List<String> tags = touristService.getTags();
-
         model.addAttribute("cities", cities);
         model.addAttribute("tags", tags);
-
         return "addAttraction";
     }
 
@@ -57,8 +56,12 @@ public class TouristController {
     @GetMapping("{name}/edit")
     public String showEditForm(@PathVariable String name, Model model) {
         TouristAttraction attraction = touristService.getAttractionByName(name);
+        List<String> cities = touristService.getCities();
+        List<String> tags = touristService.getTags();
 
         model.addAttribute("touristAttraction", attraction);
+        model.addAttribute("cities", cities);
+        model.addAttribute("tags", tags);
 
         return "updateAttraction";
     }
@@ -72,6 +75,16 @@ public class TouristController {
         return "redirect:/attractions";
     }
 
+/*
+    @PostMapping("/update")
+    public String updateAttraction(@RequestParam String name, @ModelAttribute TouristAttraction updatedAttraction, @RequestParam("tags") String[] tags) {
+        // Set the tags in the updatedAttraction object
+        updatedAttraction.setTags(Arrays.asList(tags));
+
+        touristService.updateAttraction(name, updatedAttraction);
+        return "redirect:/attractions";
+    }
+*/
 
 }
 

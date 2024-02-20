@@ -12,13 +12,20 @@
     <input type="hidden" name="name" th:value="${touristAttraction.name}"/>
 
     <label for="name">Navn:</label>
-    <input type="text" id="name" name="name" th:field="*{name}" required><br>
+    <input type="text" id="name" name="name" th:field="*{name}" readonly><br>required><br>
 
     <label for="description">Beskrivelse:</label>
     <textarea id="description" name="description" th:field="*{description}" required></textarea><br>
 
     <label for="city">Vælg by:</label>
-    <input type="text" id="city" name="city" th:field="*{city}" required><br>
+    <select id="city" name="city" th:field="*{city}">
+        <option th:each="cityItem : ${cities}" th:value="${cityItem}" th:text="${cityItem}" th:selected="${cityItem == touristAttraction.city}"></option>
+    </select><br>
+
+    <label>Tags:</label><br>
+    <div th:each="tag : ${tags}">
+        <input type="checkbox" id="tag" name="tags" th:value="${tag}" th:text="${tag}" th:checked="${touristAttraction.tags != null and touristAttraction.tags.contains(tag)}">
+    </div><br>
 
 
     <!-- Add other fields as needed -->
