@@ -13,6 +13,10 @@ public class TouristRepository {
 
     private List<TouristAttraction> attractions = new ArrayList<>();
 
+    private static final List<String> cities = Arrays.asList("København", "Helsingør", "Roskilde","Paris","Barcelona","Skagen");
+    private static final List<String> tags = Arrays.asList("Bygning", "Børnevenlig", "Kirke", "Gratis","Dyrt","Natur","Billigt");
+
+
     //constructor
     public TouristRepository() {
 
@@ -24,7 +28,13 @@ public class TouristRepository {
     public List<TouristAttraction> getAllAttractions() {
         return attractions;
     }
+    public List<String> getCities() {
+        return cities;
+    }
 
+    public List<String> getTags() {
+        return tags;
+    }
     public TouristAttraction getAttractionByName(String name) {
         for (TouristAttraction attraction : attractions) {
             if (attraction.getName().equals(name)) {
@@ -76,4 +86,10 @@ public class TouristRepository {
         }
 
     }
+
+
+
+
+
+
 }

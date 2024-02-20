@@ -2,12 +2,28 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link th:href="@{/main.css}" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sdasd</title>
-
+    <title>Edit Tourist Attraction</title>
+    <link href="@{/main.css}" rel="stylesheet">
 </head>
 <body>
+<h2>Edit Turistattraktion:</h2>
+<form th:action="@{/update}" method="post" th:object="${attraction}">
+    <input type="hidden" name="name" th:value="${attraction.name}" />
 
+    <label for="name">Navn:</label>
+    <input type="text" id="name" name="name" th:value="${attraction.name}" required><br>
+
+    <label for="description">Beskrivelse:</label>
+    <textarea id="description" name="description" th:text="${attraction.description}" required></textarea><br>
+
+    <label for="city">Vælg by:</label>
+    <input type="text" id="city" name="city" th:value="${attraction.city}" required><br>
+
+    <!-- Add other fields as needed -->
+
+    <button type="submit">Gem ændringer</button>
+    <a th:href="@{/attractions}"><button type="button">Annuller</button></a>
+</form>
 </body>
 </html>

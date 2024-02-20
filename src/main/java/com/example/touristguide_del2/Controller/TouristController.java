@@ -25,13 +25,6 @@ public class TouristController {
         return "attractionList"; // Assuming there is a view named "attractionList"
     }
 
-   /* @GetMapping("/tags/{attractionName}")
-    public String getTagsForAttraction(@PathVariable String attractionName, Model model) {
-        List<String> tags = touristService.getTagsForAttraction(attractionName);
-        model.addAttribute("tags", tags);
-        return "tags";
-    }
-    */
 
     @GetMapping("/tags")
     public String showTagsPage(@RequestParam String attractionName, Model model) {
@@ -41,57 +34,46 @@ public class TouristController {
         return "tags";
     }
 
-    @GetMapping("/addAttraction")
-    public String addtouristAttraction(){
-    return "addAttraction";
-    }
+
 
     @PostMapping("/saveAttraction")
-    public String saveAttraction(@RequestParam String name, @RequestParam String description,@RequestParam String by,@RequestParam List<String> tags) {
-        TouristAttraction newAttraction = new TouristAttraction(name, description,by,tags);
+    public String saveAttraction(@RequestParam String name, @RequestParam String description, @RequestParam String city, @RequestParam List<String> tags) {
+        TouristAttraction newAttraction = new TouristAttraction(name, description, city, tags);
         touristService.addAttraction(newAttraction);
         return "redirect:/attractions";
     }
 
-    @GetMapping("/{name}")
-    public ResponseEntity<String> getDescriptionForAttraction(@PathVariable String name) {
+
+    @GetMapping("/addAttraction")
+    public String someEndpoint(Model model) {
+        // Fetch the list of cities and tags from the service
+        List<String> cities = touristService.getCities();
+        List<String> tags = touristService.getTags();
+
+        // Add them to the model to be used in your Thymeleaf template
+        model.addAttribute("cities", cities);
+        model.addAttribute("tags", tags);
+
+        // Return the name of your Thymeleaf template
+        return "addAttraction";
+    }
+
+
+    @GetMapping("/{name}/edit")
+    public String showEditForm(@PathVariable String name, Model model) {
+        // Retrieve the tourist attraction by name from the service
         TouristAttraction attraction = touristService.getAttractionByName(name);
 
-        if (attraction != null) {
-            String description = attraction.getDescription();
-            return ResponseEntity.ok(description);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+        // Add the attraction to the model for Thymeleaf to use in the form
+        model.addAttribute("attraction", attraction);
 
-    /*@PostMapping("/add")
-    public ResponseEntity<TouristAttraction> addAttraction(@RequestBody TouristAttraction attraction) {
-        TouristAttraction addedAttraction = touristService.addAttraction(attraction);
-        return ResponseEntity.status(201).body(addedAttraction);
+        return "updateAttraction"; // Assuming there is a view named "editAttraction"
     }
-*/
     @PostMapping("/update")
-    public ResponseEntity<TouristAttraction> updateAttraction(@RequestBody TouristAttraction updatedAttraction) {
-        TouristAttraction attraction = touristService.updateAttraction(updatedAttraction.getName(), updatedAttraction);
-        if (attraction != null) {
-            return ResponseEntity.ok(attraction);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public String updateAttraction(@RequestParam String name, @ModelAttribute TouristAttraction updatedAttraction) {
+        touristService.updateAttraction(name, updatedAttraction);
+        return "redirect:/attractions";
     }
-
-    @DeleteMapping("/attractions/delete/{name}")
-    public ResponseEntity<Void> deleteAttraction(@PathVariable String name) {
-        boolean deleted = touristService.deleteAttraction(name);
-        if (deleted) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-
 
 
 }

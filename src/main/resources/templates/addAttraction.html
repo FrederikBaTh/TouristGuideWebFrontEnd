@@ -15,14 +15,18 @@
     <label for="description">Beskrivelse:</label>
     <textarea id="description" name="description" required></textarea><br>
 
-    <label for="attractions">Select Attraction:</label>
-    <select id="attractions" name="attraction">
-        <option value="runde">København</option>
-        <option value="nyhavn">Nyhavn</option>
-        <option value="tivoli">CentralCPH</option>
-    </select>
+    <label for="city">Vælg by:</label>
+    <select id="city" name="city">
+        <option th:each="cityItem : ${cities}" th:value="${cityItem}" th:text="${cityItem}"></option>
+    </select><br>
 
-    <button type="submit">Save</button>
+    <label>Tags:</label><br>
+    <div th:each="tag : ${tags}">
+        <input type="checkbox" id="tag" name="tags" th:value="${tag}" th:text="${tag}">
+    </div><br>
+
+    <button type="submit">Gem</button>
+    <a th:href="@{/attractions}"><button type="button">Annuller</button></a>
 </form>
 </body>
 </html>

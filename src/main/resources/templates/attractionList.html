@@ -13,13 +13,18 @@
     <tr>
         <th>Navn</th>
         <th>Beskrivelse</th>
-        <th>Tags</th>
+        <th>By</th>
+        <th></th>
+        <th></th>
+        <!-- <th>Tags</th> -->
     </tr>
     </thead>
     <tbody>
     <tr th:each="touristAttraction : ${touristAttractions}">
         <td th:text="${touristAttraction.name}"></td>
         <td th:text="${touristAttraction.description}"></td>
+        <td th:text="${touristAttraction.city}"></td>
+
         <td>
             <form th:action="@{/tags}" method="get">
                 <input type="hidden" name="attractionName" th:value="${touristAttraction.name}" />
@@ -27,11 +32,17 @@
             </form>
         </td>
 
+        <td>
+            <form th:action="@{/attraction/update}" method="get">
+                <input type="hidden" name="name" th:value="${touristAttraction.name}" />
+                <button type="submit">Update</button>
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>
 <form th:action="@{/addAttraction}" method="get">
-<button type="submit">Tilføj attraktion</button>
+    <button type="submit">Tilføj attraktion</button>
 </form>
 </body>
 </html>

@@ -9,6 +9,7 @@ import java.util.List;
 
 @Service
 public class TouristService {
+
     private final TouristRepository touristRepository;
 
     @Autowired
@@ -35,10 +36,16 @@ public class TouristService {
     public boolean deleteAttraction(String name) {
         return touristRepository.deleteAttraction(name);
     }
+
     public List<String> getTagsForAttraction(String attractionName) {
-        // Implementer logik til at hente tags baseret på attraktionens navn
-        // Returner en liste af tags
         return touristRepository.getTagsForAttraction(attractionName);
     }
 
+    public List<String> getCities() {
+        return touristRepository.getCities();
+    }
+
+    public List<String> getTags() {
+        return touristRepository.getTags();
+    }
 }
