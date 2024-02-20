@@ -32,10 +32,10 @@
         </td>
 
         <td>
-            <form th:action="@{/attraction/update}" method="get">
-                <input type="hidden" name="name" th:value="${touristAttraction.name}" />
-                <button type="submit">Update</button>
-            </form>
+            <a th:href="@{'/' + ${touristAttraction.name} + '/edit'}">
+                <button type="submit">Edit</button>
+            </a>
+
         </td>
     </tr>
     </tbody>

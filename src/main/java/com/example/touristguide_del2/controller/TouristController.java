@@ -54,14 +54,17 @@ public class TouristController {
     }
 
 
-    @GetMapping("/{name}/edit")
+    @GetMapping("{name}/edit")
     public String showEditForm(@PathVariable String name, Model model) {
         TouristAttraction attraction = touristService.getAttractionByName(name);
 
-        model.addAttribute("attraction", attraction);
+        model.addAttribute("touristAttraction", attraction);
 
         return "updateAttraction";
     }
+
+
+
 
     @PostMapping("/update")
     public String updateAttraction(@RequestParam String name, @ModelAttribute TouristAttraction updatedAttraction) {
