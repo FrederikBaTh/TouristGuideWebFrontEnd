@@ -9,10 +9,10 @@
 <body>
 <h2>Edit Turistattraktion:</h2>
 <form th:action="@{/update}" method="post" th:object="${touristAttraction}">
-    <input type="hidden" name="name" th:value="${touristAttraction.name}"/>
+    <input type="hidden" name="name" th:value="${touristAttraction.name}" />
 
     <label for="name">Navn:</label>
-    <input type="text" id="name" name="name" th:field="*{name}" readonly><br>required><br>
+    <input type="text" id="name" name="name" th:value="${touristAttraction.name}" readonly><br>
 
     <label for="description">Beskrivelse:</label>
     <textarea id="description" name="description" th:field="*{description}" required></textarea><br>
@@ -27,14 +27,10 @@
         <input type="checkbox" id="tag" name="tags" th:value="${tag}" th:text="${tag}" th:checked="${touristAttraction.tags != null and touristAttraction.tags.contains(tag)}">
     </div><br>
 
-
-    <!-- Add other fields as needed -->
-
     <button type="submit">Gem ændringer</button>
     <a th:href="@{/attractions}">
         <button type="button">Annuller</button>
     </a>
 </form>
-
 </body>
 </html>
