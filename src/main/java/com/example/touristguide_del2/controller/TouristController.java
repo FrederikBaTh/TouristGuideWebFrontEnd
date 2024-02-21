@@ -75,16 +75,6 @@ public class TouristController {
         return "redirect:/attractions";
     }
 
-/*
-    @PostMapping("/update")
-    public String updateAttraction(@RequestParam String name, @ModelAttribute TouristAttraction updatedAttraction, @RequestParam("tags") String[] tags) {
-        // Set the tags in the updatedAttraction object
-        updatedAttraction.setTags(Arrays.asList(tags));
-
-        touristService.updateAttraction(name, updatedAttraction);
-        return "redirect:/attractions";
-    }
-*/
 
 
     @GetMapping("/{name}/delete")

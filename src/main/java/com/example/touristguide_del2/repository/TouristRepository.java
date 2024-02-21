@@ -49,14 +49,17 @@ public class TouristRepository {
         return attraction;
     }
 
+
     public TouristAttraction updateAttraction(String name, TouristAttraction updatedAttraction) {
-        for (int i = 0; i < attractions.size(); i++) {
-            if (attractions.get(i).getName().equals(name)) {
-                attractions.set(i, updatedAttraction);
-                return updatedAttraction;
+        for (TouristAttraction attraction : attractions) {
+            if (attraction.getName().equals(attraction.getName())) {
+                attraction.setDescription(updatedAttraction.getDescription());
+                attraction.setCity(updatedAttraction.getCity());
+                attraction.setTags(updatedAttraction.getTags());
+                return attraction;
             }
         }
-        return null;
+        return updatedAttraction;
     }
 
     public boolean deleteAttraction(String name) {
