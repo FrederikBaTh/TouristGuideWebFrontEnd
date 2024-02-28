@@ -33,7 +33,7 @@ jobs:
         run: mvn -B package --file pom.xml
       - name: Publish Test Report
         if: success() || failure()
-        uses: scacap/acttion-surefire-report@v1
+        uses: scacap/action-surefire-report@v1
 
   qodana:
     needs: build
