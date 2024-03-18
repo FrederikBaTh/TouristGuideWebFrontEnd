@@ -3,9 +3,12 @@ package com.example.touristguide_del2.model;
 import java.util.List;
 
 public class TouristAttraction {
+
+    private int id;
     private String name;
     private String description;
     private String city;
+    private String cityName;
     private List<String> tags;
 
     public TouristAttraction() {
@@ -16,6 +19,28 @@ public class TouristAttraction {
         this.description = description;
         this.city = city;
         this.tags = tags;
+    }
+
+    public TouristAttraction(int id, String name, String description, String cityName) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.city = cityName;
+
+    }
+
+    public int getId() {
+        return id;
+    }
+    public void setId(int id){
+        this.id= id;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+    public void setCityName(String cityName){
+        this.cityName= cityName;
     }
 
     public String getName() {
