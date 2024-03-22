@@ -78,9 +78,11 @@ public class TouristAttraction {
     @Override
     public String toString() {
         return "TouristAttraction{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", by='" + city + '\'' +
+                ", city='" + city + '\'' +
+                ", cityName='" + cityName + '\'' +
                 ", tags=" + tags +
                 '}';
     }

@@ -168,6 +168,7 @@ public class TouristRepository {
    /* public TouristAttraction updateAttraction(String name, TouristAttraction updatedAttraction) {
         for (TouristAttraction attraction : attractions) {
             if (attraction.getName().equals(attraction.getName())) {
+
                 attraction.setDescription(updatedAttraction.getDescription());
                 attraction.setCity(updatedAttraction.getCity());
                 attraction.setTags(updatedAttraction.getTags());
@@ -177,7 +178,7 @@ public class TouristRepository {
         return updatedAttraction;
     }
 */
-
+/*
     public TouristAttraction updateAttraction(String name, TouristAttraction updatedAttraction) {
         String updateAttractionQuery = "UPDATE attractions SET description = ?, city_name = ? WHERE name = ?";
         String deleteTagsQuery = "DELETE FROM attraction_tags WHERE attraction_id = ?";
@@ -222,9 +223,15 @@ public class TouristRepository {
         return null;
     }
 
+*/
 
-/*
     public TouristAttraction updateAttraction(String name, TouristAttraction updatedAttraction) {
+        // Split the name parameter if it contains a comma
+        String[] nameParts = name.split(",");
+
+        // Use the first part of the name (trimmed) as the attraction name
+        String attractionName = nameParts[0].trim();
+
         // Query to check if an attraction with the provided name exists
         String attractionExistsQuery = "SELECT * FROM attractions WHERE name = ?";
 
@@ -232,12 +239,13 @@ public class TouristRepository {
              PreparedStatement existsStatement = connection.prepareStatement(attractionExistsQuery)) {
 
             // Set the parameter for the existsStatement
-            existsStatement.setString(1, name);
+            existsStatement.setString(1, attractionName);
 
             // Execute the query to check if the attraction exists
             try (ResultSet existsResultSet = existsStatement.executeQuery()) {
                 if (!existsResultSet.next()) {
-                    System.out.println("Attraction with name '" + name + "' does not exist.");
+                    // Attraction with the provided name doesn't exist
+                    System.out.println("Attraction with name '" + attractionName + "' does not exist.");
                     return null;
                 }
             }
@@ -254,7 +262,8 @@ public class TouristRepository {
 
         return null;
     }
-*/
+
+
 
     public boolean deleteAttraction(String name) {
         String deleteTagsQuery = "DELETE FROM attraction_tags WHERE attraction_id IN (SELECT id FROM attractions WHERE name = ?)";
