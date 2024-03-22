@@ -1,6 +1,8 @@
 package com.example.touristguide_del2.model;
 
+import java.sql.Connection;
 import java.util.List;
+import java.util.Objects;
 
 public class TouristAttraction {
 
@@ -10,6 +12,7 @@ public class TouristAttraction {
     private String city;
     private String cityName;
     private List<String> tags;
+    private Connection connection;
 
     public TouristAttraction() {
     }
@@ -85,5 +88,28 @@ public class TouristAttraction {
                 ", cityName='" + cityName + '\'' +
                 ", tags=" + tags +
                 '}';
+    }
+
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        TouristAttraction that = (TouristAttraction) object;
+        return id == that.id &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(city, that.city) &&
+                Objects.equals(cityName, that.cityName) &&
+                Objects.equals(tags, that.tags);
+    }
+
+
+    public void setConnection(Connection connection) {
+        this.connection = connection;
+    }
+
+    public Connection getConnection() {
+        return connection;
     }
 }

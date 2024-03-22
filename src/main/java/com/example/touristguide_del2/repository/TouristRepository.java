@@ -13,19 +13,12 @@ import java.util.List;
 @Repository
 public class TouristRepository {
 
-
-
     @Value("${spring.datasource.url}")
     private String db_url;
     @Value("${spring.datasource.username}")
     private String username;
     @Value("${spring.datasource.password}")
     private String password;
-
-
-
-
-
 
     private final List<TouristAttraction> attractions = new ArrayList<>();
 
@@ -35,23 +28,20 @@ public class TouristRepository {
 
     //constructor
     public TouristRepository() {
-
-        attractions.add(new TouristAttraction("Runde Tårn", "Observatorie fra det 17. århundrede.","København", Arrays.asList("Bygning", "Børnevenlig")));
-        attractions.add(new TouristAttraction("Kronborg slot", "Stort og smukt slot.","Helsingør", List.of("Børnevenlig")));
-        attractions.add(new TouristAttraction("Roskilde domkirke", "Gammelt og flot kirke.","Roskilde", Arrays.asList("Kirke", "Gratis")));
+        
     }
 
-    /*public List<TouristAttraction> getAllAttractions() {
-        return attractions;
+    private Connection connection;
+
+    public TouristRepository(Connection connection) {
+        this.connection = connection;
     }
-    */
 
     public List<TouristAttraction> getAllAttractions() {
         List<TouristAttraction> attractions = new ArrayList<>();
         String query = "SELECT id, name, description, city_name FROM attractions";
 
-        try (Connection connection = DriverManager.getConnection(db_url, username, password);
-             PreparedStatement statement = connection.prepareStatement(query);
+        try (PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
@@ -71,10 +61,6 @@ public class TouristRepository {
         return attractions;
     }
 
-
-
-
-
     public List<String> getCities() {
         return cities;
     }
@@ -82,17 +68,9 @@ public class TouristRepository {
     public List<String> getTags() {
         return tags;
     }
-    /*public TouristAttraction getAttractionByName(String name) {
-        for (TouristAttraction attraction : attractions) {
-            if (attraction.getName().equals(name)) {
-                return attraction;
-            }
-        }
-        return null;
-    }
-    */
 
-    public TouristAttraction getAttractionByName(String name) {
+
+  /*  public TouristAttraction getAttractionByName(String name) {
         String query = "SELECT id, name, description, city_name FROM attractions WHERE name = ?";
         try (Connection connection =  DriverManager.getConnection(db_url, username, password);
              PreparedStatement statement = connection.prepareStatement(query)) {
@@ -109,13 +87,30 @@ public class TouristRepository {
             e.printStackTrace();
         }
         return null;
+    }*/
+
+    public TouristAttraction getAttractionByName(String attractionName) {
+        String query = "SELECT * FROM attractions WHERE name = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, attractionName);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String description = resultSet.getString("description");
+                String city = resultSet.getString("city_name");
+
+                return new TouristAttraction(id, attractionName, description, city);
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-   /* public TouristAttraction addAttraction(TouristAttraction attraction) {
-        attractions.add(attraction);
-        return attraction;
-    }
-*/
    public TouristAttraction addAttraction(TouristAttraction attraction) {
        String attractionQuery = "INSERT INTO attractions (name, description, city_name) VALUES (?, ?, ?)";
        String tagQuery = "INSERT INTO attraction_tags (attraction_id, tag) VALUES (?, ?)";
@@ -164,66 +159,6 @@ public class TouristRepository {
        return attraction;
    }
 
-
-   /* public TouristAttraction updateAttraction(String name, TouristAttraction updatedAttraction) {
-        for (TouristAttraction attraction : attractions) {
-            if (attraction.getName().equals(attraction.getName())) {
-
-                attraction.setDescription(updatedAttraction.getDescription());
-                attraction.setCity(updatedAttraction.getCity());
-                attraction.setTags(updatedAttraction.getTags());
-                return attraction;
-            }
-        }
-        return updatedAttraction;
-    }
-*/
-/*
-    public TouristAttraction updateAttraction(String name, TouristAttraction updatedAttraction) {
-        String updateAttractionQuery = "UPDATE attractions SET description = ?, city_name = ? WHERE name = ?";
-        String deleteTagsQuery = "DELETE FROM attraction_tags WHERE attraction_id = ?";
-        String insertTagsQuery = "INSERT INTO attraction_tags (attraction_id, tag) VALUES (?, ?)";
-
-        try (Connection connection = DriverManager.getConnection(db_url, username, password);
-             PreparedStatement updateAttractionStatement = connection.prepareStatement(updateAttractionQuery);
-             PreparedStatement deleteTagsStatement = connection.prepareStatement(deleteTagsQuery);
-             PreparedStatement insertTagsStatement = connection.prepareStatement(insertTagsQuery)) {
-
-            // Set parameters for the update attraction PreparedStatement
-            updateAttractionStatement.setString(1, updatedAttraction.getDescription());
-            updateAttractionStatement.setString(2, updatedAttraction.getCity());
-            updateAttractionStatement.setString(3, name); // Use the provided name
-
-            // Execute the update attraction query
-            int rowsAffected = updateAttractionStatement.executeUpdate();
-
-            // Check if any rows were affected
-            if (rowsAffected > 0) {
-                // Delete existing tags for the attraction
-                deleteTagsStatement.setInt(1, updatedAttraction.getId());
-                deleteTagsStatement.executeUpdate();
-
-                // Insert new tags for the attraction using batch insert
-                List<String> tags = updatedAttraction.getTags();
-                for (String tag : tags) {
-                    insertTagsStatement.setInt(1, updatedAttraction.getId());
-                    insertTagsStatement.setString(2, tag);
-                    insertTagsStatement.addBatch(); // Add the insert statement to the batch
-                }
-                // Execute the batch insert
-                insertTagsStatement.executeBatch();
-
-                // Return the updated attraction
-                return updatedAttraction;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace(); // Consider logging the error instead
-        }
-
-        return null;
-    }
-
-*/
 
     public TouristAttraction updateAttraction(String name, TouristAttraction updatedAttraction) {
         // Split the name parameter if it contains a comma
