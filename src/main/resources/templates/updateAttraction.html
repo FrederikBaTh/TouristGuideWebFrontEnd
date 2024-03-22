@@ -27,6 +27,7 @@
         <input type="checkbox" id="tag" name="tags" th:value="${tag}" th:text="${tag}" th:checked="${touristAttraction.tags != null and touristAttraction.tags.contains(tag)}">
     </div><br>
 
+
     <button type="submit">Gem ændringer</button>
     <a th:href="@{/attractions}">
         <button type="button">Annuller</button>
