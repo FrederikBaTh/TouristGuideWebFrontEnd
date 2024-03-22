@@ -41,7 +41,8 @@ public class TouristRepository {
         List<TouristAttraction> attractions = new ArrayList<>();
         String query = "SELECT id, name, description, city_name FROM attractions";
 
-        try (PreparedStatement statement = connection.prepareStatement(query);
+        try (Connection connection = DriverManager.getConnection(db_url, username, password);
+                PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
