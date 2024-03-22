@@ -70,24 +70,6 @@ public class TouristRepository {
     }
 
 
-  /*  public TouristAttraction getAttractionByName(String name) {
-        String query = "SELECT id, name, description, city_name FROM attractions WHERE name = ?";
-        try (Connection connection =  DriverManager.getConnection(db_url, username, password);
-             PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, name);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    int id = resultSet.getInt("id");
-                    String description = resultSet.getString("description");
-                    String cityName = resultSet.getString("city_name");
-                    return new TouristAttraction(id, name, description, cityName);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }*/
 
     public TouristAttraction getAttractionByName(String attractionName) {
         String query = "SELECT * FROM attractions WHERE name = ?";
@@ -119,34 +101,27 @@ public class TouristRepository {
             PreparedStatement attractionStatement = connection.prepareStatement(attractionQuery, Statement.RETURN_GENERATED_KEYS);
             PreparedStatement tagStatement = connection.prepareStatement(tagQuery)) {
 
-           // Insert attraction data
            attractionStatement.setString(1, attraction.getName());
            attractionStatement.setString(2, attraction.getDescription());
            attractionStatement.setString(3, attraction.getCity());
 
-           // Execute the insertion query for attraction
            int affectedRows = attractionStatement.executeUpdate();
 
-           // Check if any rows were affected
            if (affectedRows == 0) {
                throw new SQLException("Adding attraction failed, no rows affected.");
            }
 
-           // Retrieve the generated attraction ID
            try (ResultSet generatedKeys = attractionStatement.getGeneratedKeys()) {
                if (generatedKeys.next()) {
-                   // Retrieve the generated ID and set it in the attraction object
                    int attractionId = generatedKeys.getInt(1);
                    attraction.setId(attractionId);
 
-                   // Insert tags associated with the attraction
                    for (String tag : attraction.getTags()) {
                        tagStatement.setInt(1, attractionId);
                        tagStatement.setString(2, tag);
                        tagStatement.addBatch(); // Add to batch for batch insertion
                    }
 
-                   // Execute batch insertion for tags
                    tagStatement.executeBatch();
                } else {
                    throw new SQLException("Adding attraction failed, no ID obtained.");
@@ -161,35 +136,23 @@ public class TouristRepository {
 
 
     public TouristAttraction updateAttraction(String name, TouristAttraction updatedAttraction) {
-        // Split the name parameter if it contains a comma
         String[] nameParts = name.split(",");
 
-        // Use the first part of the name (trimmed) as the attraction name
         String attractionName = nameParts[0].trim();
 
-        // Query to check if an attraction with the provided name exists
         String attractionExistsQuery = "SELECT * FROM attractions WHERE name = ?";
 
         try (Connection connection = DriverManager.getConnection(db_url, username, password);
              PreparedStatement existsStatement = connection.prepareStatement(attractionExistsQuery)) {
 
-            // Set the parameter for the existsStatement
             existsStatement.setString(1, attractionName);
 
-            // Execute the query to check if the attraction exists
             try (ResultSet existsResultSet = existsStatement.executeQuery()) {
                 if (!existsResultSet.next()) {
-                    // Attraction with the provided name doesn't exist
                     System.out.println("Attraction with name '" + attractionName + "' does not exist.");
                     return null;
                 }
             }
-
-            // Compare existing data with updated data
-            // Retrieve existing data from the database based on the provided name
-            // Compare existing data with the data provided in the updatedAttraction object
-
-            // Your code to perform the update operation...
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -208,27 +171,22 @@ public class TouristRepository {
              PreparedStatement deleteTagsStatement = connection.prepareStatement(deleteTagsQuery);
              PreparedStatement deleteAttractionStatement = connection.prepareStatement(deleteAttractionQuery)) {
 
-            // Set parameter for the delete tags PreparedStatement
             deleteTagsStatement.setString(1, name);
 
-            // Execute the delete tags query
             int tagsDeleted = deleteTagsStatement.executeUpdate();
 
-            // Set parameter for the delete attraction PreparedStatement
             deleteAttractionStatement.setString(1, name);
 
-            // Execute the delete attraction query
             int attractionDeleted = deleteAttractionStatement.executeUpdate();
 
-            // Check if both the attraction and its associated tags were deleted
             if (attractionDeleted > 0 && tagsDeleted >= 0) {
-                return true; // Attraction and associated tags successfully deleted
+                return true;
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Consider logging the error instead
+            e.printStackTrace();
         }
 
-        return false; // Attraction not found or deletion failed
+        return false;
     }
 
 

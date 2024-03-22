@@ -10,7 +10,6 @@ import org.mockito.MockitoAnnotations;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import static javax.management.Query.eq;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -40,31 +39,24 @@ public class TouristRepositoryTest {
     @Test
     void testGetAllAttractions() throws SQLException {
 
-        // Mock the database connection, statement, and result set
         Connection connectionMock = mock(Connection.class);
         PreparedStatement statementMock = mock(PreparedStatement.class);
         ResultSet resultSetMock = mock(ResultSet.class);
 
-        // Mock data to be returned by the result set
-        when(resultSetMock.next()).thenReturn(true).thenReturn(false); // Simulate one row in the result set
-        when(resultSetMock.getInt("id")).thenReturn(1); // Mock ID
-        when(resultSetMock.getString("name")).thenReturn("Attraction1"); // Mock name
-        when(resultSetMock.getString("description")).thenReturn("Description1"); // Mock description
-        when(resultSetMock.getString("city_name")).thenReturn("City1"); // Mock city name
+        when(resultSetMock.next()).thenReturn(true).thenReturn(false);
+        when(resultSetMock.getInt("id")).thenReturn(1);
+        when(resultSetMock.getString("name")).thenReturn("Attraction1");
+        when(resultSetMock.getString("description")).thenReturn("Description1");
+        when(resultSetMock.getString("city_name")).thenReturn("City1");
 
-        // Mock the execution of the query
         when(statementMock.executeQuery()).thenReturn(resultSetMock);
 
-        // Mock the connection creation
         Mockito.when(connectionMock.prepareStatement(anyString())).thenReturn(statementMock);
 
-        // Create an instance of TouristRepository with the mocked connection
         TouristRepository touristRepository = new TouristRepository(connectionMock);
 
-        // Call the method under test
         List<TouristAttraction> attractions = touristRepository.getAllAttractions();
 
-        // Verify the result
         List<TouristAttraction> expectedAttractions = new ArrayList<>();
         expectedAttractions.add(new TouristAttraction(1, "Attraction1", "Description1", "City1"));
         assertEquals(expectedAttractions, attractions);
@@ -88,40 +80,12 @@ public class TouristRepositoryTest {
         assertEquals(7, tags.size());
     }
 
-   /* @Test
-    void getAttractionByNameTest() throws SQLException {
-        String url = "jdbc:mysql://localhost:3306/tourist_database";
-        when(DriverManager.getConnection(eq(url), anyString(), anyString())).thenReturn(connection);
-        // Mocking database interaction
-        when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
-        when(preparedStatement.executeQuery()).thenReturn(resultSet);
-        when(resultSet.next()).thenReturn(true);
-        when(resultSet.getInt("id")).thenReturn(1);
-        when(resultSet.getString("name")).thenReturn("Attraction");
-        when(resultSet.getString("description")).thenReturn("Description");
-        when(resultSet.getString("city_name")).thenReturn("City");
-
-        // Calling the method to be tested
-        TouristAttraction attraction = touristRepository.getAttractionByName("Attraction");
-
-        // Verifying the result
-        if (attraction != null) {
-            assertEquals(1, attraction.getId());
-            assertEquals("Attraction", attraction.getName());
-            assertEquals("Description", attraction.getDescription());
-            assertEquals("City", attraction.getCity());
-        } else {
-            assertNull(attraction); // Assert that the result is null
-        }
-    }*/
    @Test
    void testGetAttractionByName() throws SQLException {
-       // Mocking database interaction
        Connection connection = Mockito.mock(Connection.class);
        PreparedStatement preparedStatement = Mockito.mock(PreparedStatement.class);
        ResultSet resultSet = Mockito.mock(ResultSet.class);
 
-       // Mock behavior for the database interaction
        when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
        when(preparedStatement.executeQuery()).thenReturn(resultSet);
        when(resultSet.next()).thenReturn(true);
@@ -130,13 +94,10 @@ public class TouristRepositoryTest {
        when(resultSet.getString("description")).thenReturn("Test Description");
        when(resultSet.getString("city_name")).thenReturn("Test City");
 
-       // Creating an instance of TouristRepository
        TouristRepository touristRepository = new TouristRepository(connection);
 
-       // Testing method with a sample name
        TouristAttraction attraction = touristRepository.getAttractionByName("TestAttraction");
 
-       // Verify that the object returned is not null and has correct values
        assertNotNull(attraction);
        assertEquals(1, attraction.getId());
        assertEquals("TestAttraction", attraction.getName());
